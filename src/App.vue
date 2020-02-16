@@ -4,11 +4,11 @@
 </template>
 
 <script>
-export default {
-  
-}
+  export default {
+    name: 'App'
+  }
 </script>
 
-<style scoped>
-
+<style>
+  @import "./assets/css/base.css";
 </style>
