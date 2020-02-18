@@ -1,13 +1,15 @@
 <template>
   <div>
     <nav-bar class="home-bar"><div class="center" slot="center">首页</div></nav-bar>
-    <home-swiper :banners="banners"/>
+    <home-swiper v-if="banners.length" :banners="banners"/>
+    <recommend-view :recommends="recommends"/>
   </div>
 </template>
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
   import HomeSwiper from './childComps/HomeSwiper'
+  import RecommendView from './childComps/RecommendView'
 
   import {getMultidata} from 'network/home'
 
@@ -15,7 +17,8 @@
     name: 'home',
     components: {
       NavBar,
-      HomeSwiper
+      HomeSwiper,
+      RecommendView
     },
     data() {
       return {
@@ -27,7 +30,7 @@
       getMultidata().then(res => {
         this.banners = res.data.data.banner.list
         this.recommends = res.data.data.recommend.list
-        console.log(this.banners)
+        console.log(this.recommends)
       })
     }
   }
