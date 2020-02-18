@@ -1,5 +1,5 @@
 <template>
-  <swiper v-if="banners.length">
+  <swiper v-if="banners.length" class="swiper">
     <swiper-item v-for="(item, key) in banners" :key="key">
       <a :href="item.link">
         <img :src="item.image" alt="">
@@ -28,6 +28,8 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+.swiper {
+  padding-top: 44px;
+}
 </style>

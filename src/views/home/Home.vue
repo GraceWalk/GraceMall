@@ -1,8 +1,9 @@
 <template>
   <div>
     <nav-bar class="home-bar"><div class="center" slot="center">首页</div></nav-bar>
-    <home-swiper v-if="banners.length" :banners="banners"/>
+    <home-swiper :banners="banners"/>
     <recommend-view :recommends="recommends"/>
+    <feature-view/>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
   import NavBar from 'components/common/navbar/NavBar'
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
+  import FeatureView from './childComps/FeatureView'
 
   import {getMultidata} from 'network/home'
 
@@ -18,7 +20,8 @@
     components: {
       NavBar,
       HomeSwiper,
-      RecommendView
+      RecommendView,
+      FeatureView
     },
     data() {
       return {
