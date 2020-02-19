@@ -29,6 +29,7 @@
     methods: {
       setCurrentKey(key) {
         this.currentKey = key
+        this.$emit('tabClick', key)
       }
     }
   }

@@ -4,13 +4,18 @@
     <home-swiper :banners="banners"/>
     <recommend-view :recommends="recommends"/>
     <feature-view/>
-    <tab-control class="tab-sticky" :titles="['流行', '新款', '精选']"/>
+    <tab-control class="tab-sticky" 
+      :titles="['流行', '新款', '精选']"
+      @tabClick="switchGoods"
+    />
+    <goods-list :goods="goods[currentType].list"/>
   </div>
 </template>
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
   import TabControl from 'components/content/tabControl/TabControl'
+  import GoodsList from 'components/content/goodsList/GoodsList'
 
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
@@ -23,6 +28,7 @@
     components: {
       NavBar,
       TabControl,
+      GoodsList,
       HomeSwiper,
       RecommendView,
       FeatureView
@@ -35,7 +41,8 @@
           pop: {page: 0, list: []},
           new: {page: 0, list: []},
           sell: {page: 0, list: []}
-        }
+        },
+        currentType: 'pop'
       }
     },
     created() {
@@ -45,6 +52,7 @@
       this.getGoodsData('sell')
     },
     methods: {
+      // 从服务器读取数据
       getMultidata() {
         getMultidata().then(res => {
           this.banners = res.data.data.banner.list
@@ -56,6 +64,20 @@
         getGoodsData(type, page).then(res => {
           this.goods[type].list.push(...res.data.data.list)
         })
+      },
+
+      // 点击事件
+      switchGoods(key) {
+        switch(key) {
+          case 0:
+            this.currentType = 'pop'
+            break
+          case 1:
+            this.currentType = 'new'
+            break
+          case 2:
+            this.currentType = 'sell'
+        }
       }
     }
   }
@@ -69,6 +91,7 @@
   color: white
 }
 .tab-sticky {
+  z-index: 9;
   position: sticky;
   top: 44px;
 }
