@@ -1,7 +1,13 @@
 <template>
   <div class="home">
     <nav-bar class="home-bar"><div class="center" slot="center">首页</div></nav-bar>
-    <scroll class="content">
+
+    <scroll class="content" 
+        ref="scrollComp" 
+        :probe-type="3" 
+        :pullUpload="true"
+        @scroll="contentScroll" 
+        @pullingUp="loadMore">
       <home-swiper :banners="banners"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
@@ -11,14 +17,18 @@
       />
       <goods-list :goods="goods[currentType].list"/>
     </scroll>
+
+    <back-top class="back-top" @click.native="backTop" v-show="isShowBackTop"/>
   </div>
 </template>
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
   import Scroll from 'components/common/scroll/Scroll'
+
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goodsList/GoodsList'
+  import BackTop from 'components/content/backTop/BackTop'
 
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
@@ -31,8 +41,11 @@
     components: {
       NavBar,
       Scroll,
+
       TabControl,
       GoodsList,
+      BackTop,
+
       HomeSwiper,
       RecommendView,
       FeatureView
@@ -46,7 +59,8 @@
           new: {page: 0, list: []},
           sell: {page: 0, list: []}
         },
-        currentType: 'pop'
+        currentType: 'pop',
+        isShowBackTop: false
       }
     },
     created() {
@@ -68,6 +82,8 @@
         getGoodsData(type, page).then(res => {
           this.goods[type].list.push(...res.data.data.list)
         })
+        
+        return Promise.resolve()
       },
 
       // 点击事件
@@ -82,32 +98,49 @@
           case 2:
             this.currentType = 'sell'
         }
+      },
+      backTop() {
+        this.$refs.scrollComp.scrollTo(0, 0)
+      },
+      contentScroll(position) {
+        this.isShowBackTop = -position.y > 1000 ? true : false
+      },
+      loadMore() {
+        this.getGoodsData(this.currentType).then(() => {
+          this.$refs.scrollComp.finishPullUp()
+          this.$refs.scrollComp.scroll.refresh()
+        })
       }
     }
   }
 </script>
 
 <style scoped>
-.home {
-  height: 100vh;
-}
-.home-bar {
-  background-color: var(--color-tint)
-}
-.home-bar .center {
-  color: white
-}
-.tab-sticky {
-  z-index: 1;
-  position: sticky;
-  top: 44px;
-}
-.content {
-  position: absolute;
-  top: 44px;
-  right: 0;
-  bottom: 49px;
-  left: 0;
-  overflow: hidden;
-}
+  .home {
+    height: 100vh;
+  }
+  .home .home-bar {
+    background-color: var(--color-tint)
+  }
+  .home .home-bar .center {
+    color: white
+  }
+  .home .tab-sticky {
+    z-index: 1;
+    position: sticky;
+    top: 44px;
+  }
+  .home .content {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    bottom: 49px;
+    left: 0;
+    overflow: hidden;
+  }
+  .home .back-top {
+    position: absolute;
+    right: 8px;
+    bottom: 55px;
+  }
 </style>
