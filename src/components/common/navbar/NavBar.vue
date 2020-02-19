@@ -16,7 +16,7 @@
   .nav-bar {
     display: flex;
     position: fixed;
-    z-index: 1;
+    z-index: 10;
     width: 100vw;
     height: 44px;
     line-height: 44px;

@@ -91,7 +91,7 @@
   color: white
 }
 .tab-sticky {
-  z-index: 9;
+  z-index: 1;
   position: sticky;
   top: 44px;
 }
