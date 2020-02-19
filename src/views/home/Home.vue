@@ -1,62 +1,10 @@
 <template>
-  <div>
+  <div class="home">
     <nav-bar class="home-bar"><div class="center" slot="center">首页</div></nav-bar>
     <home-swiper :banners="banners"/>
     <recommend-view :recommends="recommends"/>
     <feature-view/>
-    <tab-control class="tab-sticky" :titles="['介绍', '介绍', '介绍']"/>
-
-    <ul>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-    </ul>
+    <tab-control class="tab-sticky" :titles="['流行', '新款', '精选']"/>
   </div>
 </template>
 
@@ -68,7 +16,7 @@
   import RecommendView from './childComps/RecommendView'
   import FeatureView from './childComps/FeatureView'
 
-  import {getMultidata} from 'network/home'
+  import {getMultidata, getGoodsData} from 'network/home'
 
   export default {
     name: 'home',
@@ -82,15 +30,33 @@
     data() {
       return {
         banners: [],
-        recommends: []
+        recommends: [],
+        goods: {
+          pop: {page: 0, list: []},
+          new: {page: 0, list: []},
+          sell: {page: 0, list: []}
+        }
       }
     },
     created() {
-      getMultidata().then(res => {
-        console.log(res.data)
-        this.banners = res.data.data.banner.list
-        this.recommends = res.data.data.recommend.list
-      })
+      this.getMultidata()
+      this.getGoodsData('pop')
+      this.getGoodsData('new')
+      this.getGoodsData('sell')
+    },
+    methods: {
+      getMultidata() {
+        getMultidata().then(res => {
+          this.banners = res.data.data.banner.list
+          this.recommends = res.data.data.recommend.list
+        })
+      },
+      getGoodsData(type) {
+        const page = ++this.goods[type].page
+        getGoodsData(type, page).then(res => {
+          this.goods[type].list.push(...res.data.data.list)
+        })
+      }
     }
   }
 </script>
