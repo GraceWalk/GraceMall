@@ -1,19 +1,22 @@
 <template>
   <div class="home">
     <nav-bar class="home-bar"><div class="center" slot="center">首页</div></nav-bar>
-    <home-swiper :banners="banners"/>
-    <recommend-view :recommends="recommends"/>
-    <feature-view/>
-    <tab-control class="tab-sticky" 
-      :titles="['流行', '新款', '精选']"
-      @tabClick="switchGoods"
-    />
-    <goods-list :goods="goods[currentType].list"/>
+    <scroll class="content">
+      <home-swiper :banners="banners"/>
+      <recommend-view :recommends="recommends"/>
+      <feature-view/>
+      <tab-control class="tab-sticky" 
+        :titles="['流行', '新款', '精选']"
+        @tabClick="switchGoods"
+      />
+      <goods-list :goods="goods[currentType].list"/>
+    </scroll>
   </div>
 </template>
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
+  import Scroll from 'components/common/scroll/Scroll'
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goodsList/GoodsList'
 
@@ -27,6 +30,7 @@
     name: 'home',
     components: {
       NavBar,
+      Scroll,
       TabControl,
       GoodsList,
       HomeSwiper,
@@ -84,6 +88,9 @@
 </script>
 
 <style scoped>
+.home {
+  height: 100vh;
+}
 .home-bar {
   background-color: var(--color-tint)
 }
@@ -94,5 +101,13 @@
   z-index: 1;
   position: sticky;
   top: 44px;
+}
+.content {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  bottom: 49px;
+  left: 0;
+  overflow: hidden;
 }
 </style>

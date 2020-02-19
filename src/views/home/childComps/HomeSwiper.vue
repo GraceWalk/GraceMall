@@ -29,7 +29,4 @@
 </script>
 
 <style scoped>
-.swiper {
-  padding-top: 44px;
-}
 </style>
