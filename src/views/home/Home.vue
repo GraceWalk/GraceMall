@@ -6,8 +6,7 @@
         ref="scrollComp" 
         :probe-type="3" 
         :pullUpload="true"
-        @scroll="contentScroll" 
-        @pullingUp="loadMore">
+        @scroll="contentScroll">
       <home-swiper :banners="banners"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
@@ -69,6 +68,11 @@
       this.getGoodsData('new')
       this.getGoodsData('sell')
     },
+    mounted() {
+      this.$bus.$on('imgLoad', () => {
+        this.$refs.scrollComp.refresh()
+      })
+    },
     methods: {
       // 从服务器读取数据
       getMultidata() {
@@ -82,8 +86,6 @@
         getGoodsData(type, page).then(res => {
           this.goods[type].list.push(...res.data.data.list)
         })
-        
-        return Promise.resolve()
       },
 
       // 点击事件
@@ -104,12 +106,6 @@
       },
       contentScroll(position) {
         this.isShowBackTop = -position.y > 1000 ? true : false
-      },
-      loadMore() {
-        this.getGoodsData(this.currentType).then(() => {
-          this.$refs.scrollComp.finishPullUp()
-          this.$refs.scrollComp.scroll.refresh()
-        })
       }
     }
   }
