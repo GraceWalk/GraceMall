@@ -34,6 +34,7 @@
   import FeatureView from './childComps/FeatureView'
 
   import {getMultidata, getGoodsData} from 'network/home'
+  import {debounce} from 'common/utils'
 
   export default {
     name: 'home',
@@ -69,8 +70,9 @@
       this.getGoodsData('sell')
     },
     mounted() {
+      const refresh = debounce(this.$refs.scrollComp.refresh, 200)
       this.$bus.$on('imgLoad', () => {
-        this.$refs.scrollComp.refresh()
+        refresh()
       })
     },
     methods: {
