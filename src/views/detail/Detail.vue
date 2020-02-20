@@ -1,14 +1,19 @@
 <template>
   <div>
-    商品信息
+    <detail-nav-bar/>
   </div>
 </template>
 
 <script>
+  import DetailNavBar from './childComps/DetailNavBar'
+
   import {getDetailData} from 'network/detail'
 
   export default {
     name: 'Detail',
+    components: {
+      DetailNavBar
+    },
     data() {
       return {
         iid: ''
@@ -23,6 +28,6 @@
   }
 </script>
 
-<style>
+<style scoped>
 
 </style>

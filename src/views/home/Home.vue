@@ -61,7 +61,8 @@
           sell: {page: 0, list: []}
         },
         currentType: 'pop',
-        isShowBackTop: false
+        isShowBackTop: false,
+        nowScrollHeight: 0
       }
     },
     created() {
@@ -75,6 +76,16 @@
       this.$bus.$on('imgLoad', () => {
         finishPullUp()
       })
+    },
+    activated() {
+      if (this.$refs.scrollComp) {
+        this.$refs.scrollComp.scroll.StartY = this.nowScrollHeight
+        this.$refs.scrollComp.scroll.refresh()
+      }
+     
+    },
+    deactivated() {
+      this.nowScrollHeight = this.$refs.scrollComp.scroll.startY
     },
     methods: {
       // 从服务器读取数据
