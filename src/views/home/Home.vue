@@ -2,11 +2,12 @@
   <div class="home">
     <nav-bar class="home-bar"><div class="center" slot="center">首页</div></nav-bar>
 
-    <scroll class="content" 
-        ref="scrollComp" 
-        :probe-type="3" 
+    <scroll class="content"
+        ref="scrollComp"
+        :probe-type="3"
         :pullUpload="true"
-        @scroll="contentScroll">
+        @scroll="contentScroll"
+        @pullingUp="loadMore">
       <home-swiper :banners="banners"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
@@ -70,9 +71,9 @@
       this.getGoodsData('sell')
     },
     mounted() {
-      const refresh = debounce(this.$refs.scrollComp.refresh, 200)
+      const finishPullUp = debounce(this.$refs.scrollComp.finishPullUp, 200)
       this.$bus.$on('imgLoad', () => {
-        refresh()
+        finishPullUp()
       })
     },
     methods: {
@@ -108,6 +109,11 @@
       },
       contentScroll(position) {
         this.isShowBackTop = -position.y > 1000 ? true : false
+      },
+
+      loadMore() {
+        console.log('----')
+        this.getGoodsData(this.currentType)
       }
     }
   }
