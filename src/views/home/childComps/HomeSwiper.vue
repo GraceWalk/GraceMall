@@ -1,5 +1,5 @@
 <template>
-  <swiper v-if="banners.length" class="swiper">
+  <swiper v-if="banners.length">
     <swiper-item v-for="(item, key) in banners" :key="key">
       <a :href="item.link">
         <img :src="item.image" alt="">
