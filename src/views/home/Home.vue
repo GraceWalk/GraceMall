@@ -112,7 +112,6 @@
       },
 
       loadMore() {
-        console.log('----')
         this.getGoodsData(this.currentType)
       }
     }
