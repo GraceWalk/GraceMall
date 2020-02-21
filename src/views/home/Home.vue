@@ -1,19 +1,24 @@
 <template>
   <div class="home">
     <nav-bar class="home-bar"><div class="center" slot="center">首页</div></nav-bar>
-
+    <tab-control :titles="['流行', '新款', '精选']"
+      class="switch-bar"
+      @tabClick="switchGoods"
+      ref="tabControl1"
+      v-show="isfixedSwiperShow"
+    />
     <scroll class="content"
         ref="scrollComp"
         :probe-type="3"
         :pullUpload="true"
         @scroll="contentScroll"
         @pullingUp="loadMore">
-      <home-swiper :banners="banners"/>
+      <home-swiper :banners="banners" @imgLoad="getOffSetTop" />
       <recommend-view :recommends="recommends"/>
       <feature-view/>
-      <tab-control class="tab-sticky" 
-        :titles="['流行', '新款', '精选']"
+      <tab-control :titles="['流行', '新款', '精选']"
         @tabClick="switchGoods"
+        ref="tabControl2"
       />
       <goods-list :goods="goods[currentType].list"/>
     </scroll>
@@ -62,7 +67,9 @@
         },
         currentType: 'pop',
         isShowBackTop: false,
-        nowScrollHeight: 0
+        nowScrollHeight: 0,
+        swiperOffSetTop: 0,
+        isfixedSwiperShow: false
       }
     },
     created() {
@@ -72,20 +79,23 @@
       this.getGoodsData('sell')
     },
     mounted() {
+      //图片加载后完成pullUp以及refresh()
       const finishPullUp = debounce(this.$refs.scrollComp.finishPullUp, 200)
       this.$bus.$on('imgLoad', () => {
         finishPullUp()
       })
+      //
     },
     activated() {
       if (this.$refs.scrollComp) {
-        this.$refs.scrollComp.scroll.StartY = this.nowScrollHeight
+        this.$refs.scrollComp.scroll.scrollTo(0, this.nowScrollHeight, 0)
+        this.$refs.scrollComp.scroll.y = this.nowScrollHeight
         this.$refs.scrollComp.scroll.refresh()
       }
      
     },
     deactivated() {
-      this.nowScrollHeight = this.$refs.scrollComp.scroll.startY
+      this.nowScrollHeight = this.$refs.scrollComp.scroll.y
     },
     methods: {
       // 从服务器读取数据
@@ -104,6 +114,10 @@
 
       // 点击事件
       switchGoods(key) {
+        //两个tab-control保持同步
+        this.$refs.tabControl1.currentKey = key
+        this.$refs.tabControl2.currentKey = key
+        //切换商品信息currentKey
         switch(key) {
           case 0:
             this.currentType = 'pop'
@@ -119,7 +133,12 @@
         this.$refs.scrollComp.scrollTo(0, 0)
       },
       contentScroll(position) {
-        this.isShowBackTop = -position.y > 1000 ? true : false
+        this.isShowBackTop = -position.y > 1000
+        this.isfixedSwiperShow = -position.y > this.swiperOffSetTop
+
+      },
+      getOffSetTop() {
+        this.swiperOffSetTop = this.$refs.tabControl2.$el.offsetTop
       },
 
       loadMore() {
@@ -136,13 +155,15 @@
   .home .home-bar {
     background-color: var(--color-tint)
   }
+  .home .switch-bar {
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    z-index: 5;
+  }
   .home .home-bar .center {
     color: white
-  }
-  .home .tab-sticky {
-    z-index: 1;
-    position: sticky;
-    top: 44px;
   }
   .home .content {
     position: absolute;
