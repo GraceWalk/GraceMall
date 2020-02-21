@@ -88,8 +88,7 @@
     },
     activated() {
       if (this.$refs.scrollComp) {
-        this.$refs.scrollComp.scroll.scrollTo(0, this.nowScrollHeight, 0)
-        this.$refs.scrollComp.scroll.y = this.nowScrollHeight
+        this.$refs.scrollComp.scrollTo(0, this.nowScrollHeight, 0)
         this.$refs.scrollComp.scroll.refresh()
       }
      
