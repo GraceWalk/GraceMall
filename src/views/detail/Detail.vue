@@ -3,7 +3,8 @@
     <detail-nav-bar class="nav-bar"/>
     <scroll class="detail-wrapper">
       <detail-swiper :topImages="topImages"/>
-      <detail-base-info :baseInfo="baseInfo"/> 
+      <detail-base-info :baseInfo="baseInfo"/>
+      <detail-shop-info :shop="shopInfo"/>
     </scroll>
   </div>
 </template>
@@ -14,6 +15,7 @@
   import DetailNavBar from './childComps/DetailNavBar'
   import DetailSwiper from './childComps/DetailSwiper'
   import DetailBaseInfo from './childComps/DetailBaseInfo'
+  import DetailShopInfo from './childComps/DetailShopInfo'
 
   import {getDetailData, BaseData} from 'network/detail'
 
@@ -23,13 +25,15 @@
       Scroll,
       DetailNavBar,
       DetailSwiper,
-      DetailBaseInfo
+      DetailBaseInfo,
+      DetailShopInfo
     },
     data() {
       return {
         iid: '',
         topImages: [],
-        baseInfo: {}
+        baseInfo: {},
+        shopInfo: {}
       }
     },
     created() {
@@ -39,8 +43,10 @@
         console.log(data)
         //获取商品轮播图
         this.topImages = data.itemInfo.topImages
+        //获取商品基础信息
         this.baseInfo =  new BaseData(data.itemInfo, data.columns, data.shopInfo.services)
-        console.log(this.baseInfo)
+        //获取商家信息
+        this.shopInfo = data.shopInfo
       })
     }
   }
