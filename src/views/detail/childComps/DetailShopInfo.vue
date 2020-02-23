@@ -19,8 +19,12 @@
         <table>
           <tr v-for="(item, index) in shop.score" :key="index">
             <td>{{ item.name }}</td>
-            <td class="score" :class="{'score-better': item.isBetter}">{{ item.score }}</td>
-            <td class="desc" :class="{'desc-better': item.isBetter}">{{ item.isBetter ? '高' : '低' }}</td>
+            <td class="score" 
+                :class="{'score-better': item.isBetter}">
+                {{ item.score }}</td>
+            <td class="desc" 
+                :class="{'desc-better': item.isBetter}">
+                {{ item.isBetter ? '高' : '低' }}</td>
           </tr>
         </table>
       </div>
