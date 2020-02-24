@@ -1,10 +1,10 @@
 <template>
-  <div v-if="Object.keys(show).length">
+  <div class="show" v-if="Object.keys(show).length">
     <div class="item" v-for="(item, index) in show.detailImage" :key="index">
       <div class="start"></div>
       <div class="item-desc">{{ item.key }}</div>
       <div class="end"></div>
-      <img v-for="(img, index) in item.list" :key="index" :src="img" alt="">
+      <img v-for="(img, index) in item.list" :key="index" :src="img" @load="imgLoad">
     </div>
   </div>
 </template>
@@ -19,11 +19,19 @@
           return {}
         }
       }
+    },
+    methods: {
+      imgLoad() {
+        this.$emit('imgLoad')
+      }
     }
   }
 </script>
 
 <style scoped>
+  .show {
+    border-bottom: 5px solid #f2f5f8;
+  }
   .item {
     margin: 20px 0;
   }

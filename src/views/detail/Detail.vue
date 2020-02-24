@@ -1,16 +1,18 @@
 <template>
   <div>
     <detail-nav-bar class="nav-bar"/>
-    <scroll class="detail-wrapper">
+    <scroll class="detail-wrapper" ref="showComp">
       <detail-swiper :topImages="topImages"/>
       <detail-base-info :baseInfo="baseInfo"/>
       <detail-shop-info :shop="shopInfo"/>
-      <detail-show-info :show="detailInfo"/>
+      <detail-show-info :show="detailInfo" @imgLoad="refresh"/>
+      <detail-params-info :params="itemParams"/>
     </scroll>
   </div>
 </template>
 
 <script>
+  import {debounce} from 'common/utils'
   import Scroll from 'components/common/scroll/Scroll'
 
   import DetailNavBar from './childComps/DetailNavBar'
@@ -18,6 +20,7 @@
   import DetailBaseInfo from './childComps/DetailBaseInfo'
   import DetailShopInfo from './childComps/DetailShopInfo'
   import DetailShowInfo from './childComps/DetailShowInfo'
+  import DetailParamsInfo from './childComps/DetailParamsInfo'
 
   import {getDetailData, BaseData} from 'network/detail'
 
@@ -29,7 +32,8 @@
       DetailSwiper,
       DetailBaseInfo,
       DetailShopInfo,
-      DetailShowInfo
+      DetailShowInfo,
+      DetailParamsInfo
     },
     data() {
       return {
@@ -37,7 +41,9 @@
         topImages: [],
         baseInfo: {},
         shopInfo: {},
-        detailInfo: {}
+        detailInfo: {},
+        imgRefresh: '',
+        itemParams: {}
       }
     },
     created() {
@@ -53,7 +59,17 @@
         this.shopInfo = data.shopInfo
         //获得商品展示信息
         this.detailInfo = data.detailInfo
+        //获得商品参数信息
+        this.itemParams = data.itemParams
       })
+    },
+    mounted() {
+      this.imgRefresh = debounce(this.$refs.showComp.refresh, 100)
+    },
+    methods: {
+      refresh() {
+        this.imgRefresh()
+      }
     }
   }
 </script>
