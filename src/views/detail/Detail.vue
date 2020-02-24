@@ -1,14 +1,14 @@
 <template>
   <div>
-    <detail-nav-bar class="nav-bar"/>
+    <detail-nav-bar class="nav-bar" @switchTag="toPosition"/>
     <scroll class="detail-wrapper" ref="showComp">
       <detail-swiper :topImages="topImages"/>
       <detail-base-info :baseInfo="baseInfo"/>
       <detail-shop-info :shop="shopInfo"/>
       <detail-show-info :show="detailInfo" @imgLoad="refresh"/>
-      <detail-params-info :params="itemParams"/>
-      <detail-commit-info :comment="commentInfo"/>
-      <goods-list :goods="recommendList"/>
+      <detail-params-info :params="itemParams" ref="paramsComp"/>
+      <detail-comment-info :comment="commentInfo" ref="commentComp"/>
+      <recommend-list :goods="recommendList" ref="recommendComp"/>
     </scroll>
   </div>
 </template>
@@ -16,7 +16,7 @@
 <script>
   import {debounce} from 'common/utils'
   import Scroll from 'components/common/scroll/Scroll'
-  import GoodsList from 'components/content/goodsList/GoodsList'
+  import RecommendList from 'components/content/goodsList/GoodsList'
 
   import DetailNavBar from './childComps/DetailNavBar'
   import DetailSwiper from './childComps/DetailSwiper'
@@ -24,7 +24,7 @@
   import DetailShopInfo from './childComps/DetailShopInfo'
   import DetailShowInfo from './childComps/DetailShowInfo'
   import DetailParamsInfo from './childComps/DetailParamsInfo'
-  import DetailCommitInfo from './childComps/DetailCommentInfo'
+  import DetailCommentInfo from './childComps/DetailCommentInfo'
 
   import {getDetailData, getRecommend, BaseData} from 'network/detail'
 
@@ -32,14 +32,14 @@
     name: 'Detail',
     components: {
       Scroll,
-      GoodsList,
+      RecommendList,
       DetailNavBar,
       DetailSwiper,
       DetailBaseInfo,
       DetailShopInfo,
       DetailShowInfo,
       DetailParamsInfo,
-      DetailCommitInfo
+      DetailCommentInfo
     },
     data() {
       return {
@@ -51,7 +51,9 @@
         imgRefresh: '',
         itemParams: {},
         commentInfo: {},
-        recommendList: []
+        recommendList: [],
+        themeTopYs: [],
+        themeTopYsFunc: ''
       }
     },
     created() {
@@ -75,13 +77,26 @@
       getRecommend().then(res => {
         this.recommendList = res.data.data.list
       })
+
     },
     mounted() {
       this.imgRefresh = debounce(this.$refs.showComp.refresh, 100)
+      this.themeTopYsFunc = debounce(this.getThemeTopYs, 100)
     },
     methods: {
       refresh() {
         this.imgRefresh()
+        this.themeTopYsFunc()
+
+      },
+      getThemeTopYs() {
+        this.themeTopYs = [0]
+        this.themeTopYs.push(this.$refs.paramsComp.$el.offsetTop)
+        this.themeTopYs.push(this.$refs.commentComp.$el.offsetTop)
+        this.themeTopYs.push(this.$refs.recommendComp.$el.offsetTop)
+      },
+      toPosition(index) {
+        this.$refs.showComp.scrollTo(0, -this.themeTopYs[index], 100)
       }
     }
   }

@@ -35,6 +35,7 @@
       },
       tagClick(tag) {
         this.currentTag = tag
+        this.$emit('switchTag', this.currentTag)
       }
     }
   }
