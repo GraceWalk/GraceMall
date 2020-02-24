@@ -7,6 +7,7 @@
       <detail-shop-info :shop="shopInfo"/>
       <detail-show-info :show="detailInfo" @imgLoad="refresh"/>
       <detail-params-info :params="itemParams"/>
+      <detail-commit-info :comment="commentInfo"/>
     </scroll>
   </div>
 </template>
@@ -21,6 +22,7 @@
   import DetailShopInfo from './childComps/DetailShopInfo'
   import DetailShowInfo from './childComps/DetailShowInfo'
   import DetailParamsInfo from './childComps/DetailParamsInfo'
+  import DetailCommitInfo from './childComps/DetailCommentInfo'
 
   import {getDetailData, BaseData} from 'network/detail'
 
@@ -33,7 +35,8 @@
       DetailBaseInfo,
       DetailShopInfo,
       DetailShowInfo,
-      DetailParamsInfo
+      DetailParamsInfo,
+      DetailCommitInfo
     },
     data() {
       return {
@@ -43,7 +46,8 @@
         shopInfo: {},
         detailInfo: {},
         imgRefresh: '',
-        itemParams: {}
+        itemParams: {},
+        commentInfo: {}
       }
     },
     created() {
@@ -61,6 +65,8 @@
         this.detailInfo = data.detailInfo
         //获得商品参数信息
         this.itemParams = data.itemParams
+        //获得商品用户评价信息
+        this.commentInfo = data.rate.list[0]
       })
     },
     mounted() {
