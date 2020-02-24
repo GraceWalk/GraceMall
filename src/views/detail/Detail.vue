@@ -98,12 +98,12 @@
         this.themeTopYs.push(Number.MAX_VALUE)
       },
       toPosition(index) {
-        this.$refs.showComp.scrollTo(0, -this.themeTopYs[index], 100)
+        this.$refs.showComp.scrollTo(0, -this.themeTopYs[index], 500)
       },
       contentScroll(position) {
         const pArray = this.themeTopYs
         for (let i = 0; i < pArray.length - 1; i++) {
-          if (this.currentTag !== i && (-position.y > pArray[i] && -position.y <= pArray[i + 1])) {
+          if (this.currentTag !== i && (-position.y >= pArray[i] && -position.y < pArray[i + 1])) {
             this.currentTag = i
             this.$refs.navbarComp.currentTag = this.currentTag
           }
