@@ -19,6 +19,8 @@
 </template>
 
 <script>
+  import {formatDate} from 'common/utils'
+
   export default {
     name: 'DetailCommentInfo',
     props: {
@@ -32,7 +34,7 @@
     filters: {
       transTime(time) {
         const date = new Date(time * 1000)
-        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+        return formatDate(date, 'yyyy-MM-dd')
       }
     }
   }
