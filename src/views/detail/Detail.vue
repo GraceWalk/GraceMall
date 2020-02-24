@@ -8,6 +8,7 @@
       <detail-show-info :show="detailInfo" @imgLoad="refresh"/>
       <detail-params-info :params="itemParams"/>
       <detail-commit-info :comment="commentInfo"/>
+      <goods-list :goods="recommendList"/>
     </scroll>
   </div>
 </template>
@@ -15,6 +16,7 @@
 <script>
   import {debounce} from 'common/utils'
   import Scroll from 'components/common/scroll/Scroll'
+  import GoodsList from 'components/content/goodsList/GoodsList'
 
   import DetailNavBar from './childComps/DetailNavBar'
   import DetailSwiper from './childComps/DetailSwiper'
@@ -24,12 +26,13 @@
   import DetailParamsInfo from './childComps/DetailParamsInfo'
   import DetailCommitInfo from './childComps/DetailCommentInfo'
 
-  import {getDetailData, BaseData} from 'network/detail'
+  import {getDetailData, getRecommend, BaseData} from 'network/detail'
 
   export default {
     name: 'Detail',
     components: {
       Scroll,
+      GoodsList,
       DetailNavBar,
       DetailSwiper,
       DetailBaseInfo,
@@ -47,14 +50,14 @@
         detailInfo: {},
         imgRefresh: '',
         itemParams: {},
-        commentInfo: {}
+        commentInfo: {},
+        recommendList: []
       }
     },
     created() {
       this.iid = this.$route.query.iid
       getDetailData(this.iid).then(res => {
         const data = res.data.result
-        console.log(data)
         //获取商品轮播图
         this.topImages = data.itemInfo.topImages
         //获取商品基础信息
@@ -67,6 +70,10 @@
         this.itemParams = data.itemParams
         //获得商品用户评价信息
         this.commentInfo = data.rate.list[0]
+      })
+      //获取推荐数据
+      getRecommend().then(res => {
+        this.recommendList = res.data.data.list
       })
     },
     mounted() {
