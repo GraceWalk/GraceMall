@@ -81,7 +81,7 @@
     mounted() {
       //图片加载后完成pullUp以及refresh()
       const finishPullUp = debounce(this.$refs.scrollComp.finishPullUp, 200)
-      this.$bus.$on('imgLoad', () => {
+      this.$bus.$on('homeImgLoad', () => {
         finishPullUp()
       })
       //

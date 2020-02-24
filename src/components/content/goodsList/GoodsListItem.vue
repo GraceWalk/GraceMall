@@ -27,7 +27,10 @@
     },
     methods: {
       imgLoad() {
-        this.$bus.$emit('imgLoad')
+        if (this.$route.path.indexOf('/home') !== -1) {
+          this.$bus.$emit('homeImgLoad')
+        }
+        
       },
       itemClick() {
         this.$router.push({
