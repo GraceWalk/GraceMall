@@ -30,9 +30,10 @@
 
 <style scoped>
   .params {
+    padding-bottom: 10px;
+    border-bottom: 5px solid #f2f5f8;
     font-size: 14px;
     color: rgb(27, 27, 27);
-    border-bottom: 5px solid #f2f5f8;
   }
   table {
     width: 90%;
@@ -50,6 +51,9 @@
   .rule tr:last-of-type {
     padding-bottom: 10px;
     border-bottom: 2px solid rgb(240, 240, 240);
+  }
+  .info tr:last-of-type {
+    border-bottom: 0px;
   }
   .info  tr td:first-of-type {
     width: 80px;
