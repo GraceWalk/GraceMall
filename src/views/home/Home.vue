@@ -11,7 +11,7 @@
         ref="scrollComp"
         :probe-type="3"
         :pullUpload="true"
-        @scroll="contentScroll"
+        @homeScroll="contentScroll"
         @pullingUp="loadMore">
       <home-swiper :banners="banners" @imgLoad="getOffSetTop" />
       <recommend-view :recommends="recommends"/>

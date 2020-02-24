@@ -36,7 +36,12 @@
 
       if (this.probeType === 2 || this.probeType === 3) {
         this.scroll.on('scroll', position => {
-          this.$emit('scroll', position)
+          if (this.$route.path.indexOf('/home') !== -1) {
+            this.$emit('homeScroll', position)
+          } else if (this.$route.path.indexOf('/detail') !== -1) {
+            this.$emit('detailScroll', position)
+          }
+          
         })
       }
 
