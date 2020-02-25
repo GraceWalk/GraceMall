@@ -10,6 +10,7 @@
       <detail-comment-info :comment="commentInfo" ref="commentComp"/>
       <recommend-list :goods="recommendList" ref="recommendComp"/>
     </scroll>
+    <detail-bottom-bar/>
   </div>
 </template>
 
@@ -25,6 +26,7 @@
   import DetailShowInfo from './childComps/DetailShowInfo'
   import DetailParamsInfo from './childComps/DetailParamsInfo'
   import DetailCommentInfo from './childComps/DetailCommentInfo'
+  import DetailBottomBar from './childComps/DetailBottomBar'
 
   import {getDetailData, getRecommend, BaseData} from 'network/detail'
 
@@ -39,7 +41,8 @@
       DetailShopInfo,
       DetailShowInfo,
       DetailParamsInfo,
-      DetailCommentInfo
+      DetailCommentInfo,
+      DetailBottomBar
     },
     data() {
       return {
@@ -122,7 +125,7 @@
   position: absolute;
   top: 44px;
   right: 0;
-  bottom: 0;
+  bottom: 44px;
   left: 0;
   z-index: 2;
   background-color: #fff;
