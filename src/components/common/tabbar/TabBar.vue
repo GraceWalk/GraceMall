@@ -18,7 +18,7 @@
     right: 0;
     bottom: 0;
     z-index: 1;
-    background-color: rgb(231, 231, 231);
-    box-shadow: 0 -1px 3px rgba(204, 204, 204, 0.747);
+    background-color: #fff;
+    box-shadow: 0 -1px 3px rgba(219, 219, 219, 0.747);
   }
 </style>

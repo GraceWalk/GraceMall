@@ -34,10 +34,11 @@
     flex: 1;
     height: 49px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
   }
   .tab-bar-item img {
     width: 24px;
+    height: 28px;
     margin-top: 3px;
     vertical-align: middle;
   }
