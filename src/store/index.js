@@ -7,7 +7,8 @@ import mutations from './mutations'
 import actions from './actions'
 
 const state = {
-  details: []
+  details: [],
+  allSelected: false
 }
 
 export default new Vuex.Store({

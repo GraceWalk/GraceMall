@@ -1,2 +1,5 @@
-export const ADD_COUNTER = 'add_counter'
+export const ADD_COUNT = 'add_count'
+export const MINUS_COUNT = 'minus_count'
 export const ADD_DETAIL = 'add_detail'
+export const REVERSE_CHECK = 'reverse_check'
+export const CHECK_ALL = 'check_all'

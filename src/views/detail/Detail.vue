@@ -123,7 +123,8 @@
       addToCart() {
         const detail = {}
         detail.iid = this.iid
-        detail.price = this.baseInfo.title
+        detail.title = this.baseInfo.title
+        detail.price = this.baseInfo.nowPrice
         detail.img = this.topImages[0]
         detail.desc = this.detailInfo.desc
         this.$store.dispatch('addToCart', detail)

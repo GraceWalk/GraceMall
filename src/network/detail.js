@@ -19,6 +19,7 @@ export class BaseData {
   constructor(itemInfo, columns, services) {
     this.title = itemInfo.title
     this.price = itemInfo.price
+    this.nowPrice = itemInfo.lowNowPrice
     this.oldPrice = itemInfo.oldPrice
     this.discount = itemInfo.discountDesc
     this.columns = columns
