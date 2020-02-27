@@ -3,13 +3,15 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import mutations from './mutations'
+import actions from './actions'
+
+const state = {
+  details: []
+}
+
 export default new Vuex.Store({
-  state: {
-    details: []
-  },
-  mutations: {
-    addToCart (state, payload) {
-      console.log(payload)
-    }
-  }
+  state,
+  mutations,
+  actions
 })

@@ -118,7 +118,7 @@
         detail.price = this.baseInfo.title
         detail.img = this.topImages[0]
         detail.desc = this.detailInfo.desc
-        this.$store.commit('addToCart', detail)
+        this.$store.dispatch('addToCart', detail)
       }
     }
   }
