@@ -10,7 +10,7 @@
       <detail-comment-info :comment="commentInfo" ref="commentComp"/>
       <recommend-list :goods="recommendList" ref="recommendComp"/>
     </scroll>
-    <detail-bottom-bar/>
+    <detail-bottom-bar @cartClick="addToCart"/>
   </div>
 </template>
 
@@ -111,6 +111,14 @@
             this.$refs.navbarComp.currentTag = this.currentTag
           }
         }
+      },
+      addToCart() {
+        const detail = {}
+        detail.iid = this.iid
+        detail.price = this.baseInfo.title
+        detail.img = this.topImages[0]
+        detail.desc = this.detailInfo.desc
+        this.$store.commit('addToCart', detail)
       }
     }
   }

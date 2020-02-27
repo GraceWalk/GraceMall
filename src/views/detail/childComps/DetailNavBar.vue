@@ -34,8 +34,7 @@
         this.$router.back()
       },
       tagClick(tag) {
-        this.currentTag = tag
-        this.$emit('switchTag', this.currentTag)
+        this.$emit('switchTag', tag)
       }
     }
   }

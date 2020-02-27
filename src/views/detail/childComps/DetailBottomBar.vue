@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="right-bar">
-      <div class="cart">加入购物车</div>
+      <div class="cart" @click="cartClick">加入购物车</div>
       <div class="buy">购买</div>
     </div>
   </div>
@@ -23,7 +23,12 @@
 
 <script>
   export default {
-    name: 'DetailBottomBar'
+    name: 'DetailBottomBar',
+    methods: {
+      cartClick() {
+        this.$emit('cartClick')
+      }
+    }
   }
 </script>
 
@@ -65,21 +70,21 @@
   .right-bar .cart,
   .right-bar .buy {
     flex: 1;
-    height: 34px;
+    height: 36px;
     font-size: 13px;
     color: white;
-    line-height: 37px;
+    line-height: 36px;
     text-align: center;
   }
   .right-bar .cart{
-    border-top-left-radius: 17px;
-    border-bottom-left-radius: 17px;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
     background: linear-gradient(to right, rgb(250, 198, 57), rgb(255, 177, 9));
   }
   .right-bar .buy {
     margin-right: 4%;
-    border-top-right-radius: 17px;
-    border-bottom-right-radius: 17px;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
     background: linear-gradient(to right, rgb(250, 102, 57), rgb(255, 58, 9));
   }
   
