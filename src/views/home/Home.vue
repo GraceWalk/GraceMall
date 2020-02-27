@@ -28,12 +28,12 @@
 </template>
 
 <script>
+  import { backTop } from 'common/mixin'
   import NavBar from 'components/common/navbar/NavBar'
   import Scroll from 'components/common/scroll/Scroll'
 
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goodsList/GoodsList'
-  import BackTop from 'components/content/backTop/BackTop'
 
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
@@ -44,13 +44,13 @@
 
   export default {
     name: 'home',
+    mixins: [backTop],
     components: {
       NavBar,
       Scroll,
 
       TabControl,
       GoodsList,
-      BackTop,
 
       HomeSwiper,
       RecommendView,
@@ -66,7 +66,6 @@
           sell: {page: 0, list: []}
         },
         currentType: 'pop',
-        isShowBackTop: false,
         nowScrollHeight: 0,
         swiperOffSetTop: 0,
         isfixedSwiperShow: false
@@ -132,9 +131,8 @@
         this.$refs.scrollComp.scrollTo(0, 0)
       },
       contentScroll(position) {
-        this.isShowBackTop = -position.y > 1000
+        this.showBackTop(position)
         this.isfixedSwiperShow = -position.y > this.swiperOffSetTop
-
       },
       getOffSetTop() {
         this.swiperOffSetTop = this.$refs.tabControl2.$el.offsetTop

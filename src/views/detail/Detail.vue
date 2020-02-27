@@ -1,7 +1,10 @@
 <template>
   <div>
     <detail-nav-bar class="nav-bar" @switchTag="toPosition" ref="navbarComp"/>
-    <scroll class="detail-wrapper" ref="showComp" :probe-type="3" @detailScroll="contentScroll">
+    <scroll class="detail-wrapper" 
+            ref="scrollComp" 
+            :probe-type="3" 
+            @detailScroll="contentScroll">
       <detail-swiper :topImages="topImages"/>
       <detail-base-info :baseInfo="baseInfo"/>
       <detail-shop-info :shop="shopInfo"/>
@@ -11,11 +14,13 @@
       <recommend-list :goods="recommendList" ref="recommendComp"/>
     </scroll>
     <detail-bottom-bar @cartClick="addToCart"/>
+    <back-top class="back-top" @click.native="backTop" v-show="isShowBackTop"/>
   </div>
 </template>
 
 <script>
   import {debounce} from 'common/utils'
+  import { backTop } from 'common/mixin'
   import Scroll from 'components/common/scroll/Scroll'
   import RecommendList from 'components/content/goodsList/GoodsList'
 
@@ -32,6 +37,7 @@
 
   export default {
     name: 'Detail',
+    mixins: [backTop],
     components: {
       Scroll,
       RecommendList,
@@ -84,7 +90,7 @@
 
     },
     mounted() {
-      this.imgRefresh = debounce(this.$refs.showComp.refresh, 100)
+      this.imgRefresh = debounce(this.$refs.scrollComp.refresh, 100)
       this.themeTopYsFunc = debounce(this.getThemeTopYs, 100)
     },
     methods: {
@@ -101,9 +107,11 @@
         this.themeTopYs.push(Number.MAX_VALUE)
       },
       toPosition(index) {
-        this.$refs.showComp.scrollTo(0, -this.themeTopYs[index], 500)
+        this.$refs.scrollComp.scrollTo(0, -this.themeTopYs[index], 500)
       },
       contentScroll(position) {
+        this.showBackTop(position)
+
         const pArray = this.themeTopYs
         for (let i = 0; i < pArray.length - 1; i++) {
           if (this.currentTag !== i && (-position.y >= pArray[i] && -position.y < pArray[i + 1])) {
@@ -125,17 +133,23 @@
 </script>
 
 <style scoped>
-.nav-bar {
-  z-index: 3;
-  background-color: #fff;
-}
-.detail-wrapper {
-  position: absolute;
-  top: 44px;
-  right: 0;
-  bottom: 44px;
-  left: 0;
-  z-index: 2;
-  background-color: #fff;
-}
+  .nav-bar {
+    z-index: 3;
+    background-color: #fff;
+  }
+  .detail-wrapper {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    bottom: 44px;
+    left: 0;
+    z-index: 2;
+    background-color: #fff;
+  }
+ .back-top {
+    position: absolute;
+    right: 8px;
+    bottom: 55px;
+    z-index: 5;
+  }
 </style>
