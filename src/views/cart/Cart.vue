@@ -62,8 +62,10 @@
         return this.$store.state.details.reduce((acc, obj) => {
           if (obj.isChecked) {
             return acc + obj.price * obj.count
+          } else {
+            return acc
           }
-        }, (0))
+        }, (0)).toFixed(2)
       }
     },
     filters: {
